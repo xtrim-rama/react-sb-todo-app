@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "35451523-7d4d-43e5-9515-050e8f56befb",
+		"name": "ReactSBTodoApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3861566"
+	},
+	"item": [
+		{
+			"name": "Todo_CREATE",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Title 1\",\r\n    \"description\": \"Description 1\",\r\n    \"todoStatus\": \"NOT_STARTED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_service_url}}/api/v1/todos",
+					"host": [
+						"{{todo_service_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todo_UPDATE",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Title 1\",\r\n    \"description\": \"Description 1\",\r\n    \"todoStatus\": \"COMPLETE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{todo_service_url}}/api/v1/todos/{{todo_id}}",
+					"host": [
+						"{{todo_service_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"{{todo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todo_FETCH",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{todo_service_url}}/api/v1/todos/{{todo_id}}",
+					"host": [
+						"{{todo_service_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"{{todo_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todo_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{todo_service_url}}/api/v1/todos/{{todo_id}}",
+					"host": [
+						"{{todo_service_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"todos",
+						"{{todo_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "todo_service_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "todo_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
