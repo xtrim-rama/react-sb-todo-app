@@ -21,9 +21,9 @@ public class TodoServiceImpl implements ITodoService {
     private final TodoRepository todoRepository;
 
     @Override
-    public void createTodo(TodoDto todoDto) {
+    public TodoDto createTodo(TodoDto todoDto) {
         log.debug("createTodo() called --->");
-        todoRepository.save(TodoMapper.mapDtoToEntity(todoDto, new Todo()));
+        return TodoMapper.mapEntityToDto(todoRepository.save(TodoMapper.mapDtoToEntity(todoDto, new Todo())), new TodoDto());
     }
 
     @Override

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.UUID;
 
 @Slf4j
@@ -26,9 +27,9 @@ public class TodoController {
     @PostMapping(TodoConstants.TODO_PATH)
     public ResponseEntity<ResponseDto> createTodo(@Validated @RequestBody TodoDto todoDto) {
         log.debug("createTodo() called --->");
-        iTodoService.createTodo(todoDto);
+        TodoDto savedTodo = iTodoService.createTodo(todoDto);
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(URI.create(TodoConstants.TODO_PATH + "/" + savedTodo.getId().toString()))
                 .body(ResponseDto.builder()
                         .statusCode(CommonConstants.STATUS_201)
                         .statusMsg(CommonConstants.MSG_201_CREATED)

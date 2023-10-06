@@ -5,7 +5,7 @@ import com.demo.todoservice.dto.TodoDto;
 import java.util.UUID;
 
 public interface ITodoService {
-    void createTodo(TodoDto todoDto);
+    TodoDto createTodo(TodoDto todoDto);
 
     TodoDto fetchTodo(UUID todoId);
 
