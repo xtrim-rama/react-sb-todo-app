@@ -4,9 +4,11 @@ import com.demo.todoservice.constants.CommonConstants;
 import com.demo.todoservice.constants.TodoConstants;
 import com.demo.todoservice.dto.TodoDto;
 import com.demo.todoservice.dto.common.ResponseDto;
+import com.demo.todoservice.security.jwt.JWTUtils;
 import com.demo.todoservice.service.ITodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +25,14 @@ import java.util.UUID;
 public class TodoController {
 
     private final ITodoService iTodoService;
+    private final JWTUtils jwtUtils;
 
     @PostMapping(TodoConstants.TODO_PATH)
-    public ResponseEntity<ResponseDto> createTodo(@Validated @RequestBody TodoDto todoDto) {
+    public ResponseEntity<ResponseDto> createTodo(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuth,
+                                                  @Validated @RequestBody TodoDto todoDto) {
         log.debug("createTodo() called --->");
-        TodoDto savedTodo = iTodoService.createTodo(todoDto);
+        UUID creatorId = jwtUtils.getUserIdFromJwtToken(headerAuth);
+        TodoDto savedTodo = iTodoService.createTodo(creatorId, todoDto);
         return ResponseEntity
                 .created(URI.create(TodoConstants.TODO_PATH + "/" + savedTodo.getId().toString()))
                 .body(ResponseDto.builder()
@@ -37,18 +42,22 @@ public class TodoController {
     }
 
     @GetMapping(TodoConstants.TODO_PATH_ID)
-    public ResponseEntity<TodoDto> fetchTodo(@PathVariable("todoId") UUID todoId) {
+    public ResponseEntity<TodoDto> fetchTodo(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuth,
+                                             @PathVariable("todoId") UUID todoId) {
         log.debug("fetchTodo() called --->");
+        UUID creatorId = jwtUtils.getUserIdFromJwtToken(headerAuth);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(iTodoService.fetchTodo(todoId));
+                .body(iTodoService.fetchTodo(creatorId, todoId));
     }
 
     @PutMapping(TodoConstants.TODO_PATH_ID)
-    public ResponseEntity<ResponseDto> updateTodo(@PathVariable("todoId") UUID todoId,
+    public ResponseEntity<ResponseDto> updateTodo(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuth,
+                                                  @PathVariable("todoId") UUID todoId,
                                                   @Validated @RequestBody TodoDto todoDto) {
         log.debug("updateTodo() called --->");
-        boolean isUpdated = iTodoService.updateTodo(todoId, todoDto);
+        UUID creatorId = jwtUtils.getUserIdFromJwtToken(headerAuth);
+        boolean isUpdated = iTodoService.updateTodo(creatorId, todoId, todoDto);
         if (isUpdated) {
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -67,9 +76,11 @@ public class TodoController {
     }
 
     @DeleteMapping(TodoConstants.TODO_PATH_ID)
-    public ResponseEntity<ResponseDto> deleteTodo(@PathVariable("todoId") UUID todoId) {
+    public ResponseEntity<ResponseDto> deleteTodo(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuth,
+                                                  @PathVariable("todoId") UUID todoId) {
         log.debug("deleteTodo() called --->");
-        boolean isDeleted = iTodoService.deleteTodo(todoId);
+        UUID creatorId = jwtUtils.getUserIdFromJwtToken(headerAuth);
+        boolean isDeleted = iTodoService.deleteTodo(creatorId, todoId);
         if (isDeleted) {
             return ResponseEntity
                     .status(HttpStatus.OK)

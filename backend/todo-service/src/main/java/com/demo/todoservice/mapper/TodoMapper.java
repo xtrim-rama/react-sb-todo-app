@@ -14,6 +14,7 @@ public class TodoMapper {
     public static TodoDto mapEntityToDto(@NotNull Todo todo, @NotNull TodoDto todoDto) {
         log.debug("mapEntityToDto() called --->");
         todoDto.setId(todo.getId());
+        todoDto.setCreatorId(todo.getCreatorId());
         todoDto.setTodoStatus(todo.getTodoStatus());
         todoDto.setTitle(todo.getTitle());
         todoDto.setDescription(todo.getDescription());

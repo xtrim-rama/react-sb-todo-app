@@ -29,5 +29,8 @@ public class Todo extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TodoStatus todoStatus;
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JdbcTypeCode(value = Types.VARCHAR)
+    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID creatorId;
 }

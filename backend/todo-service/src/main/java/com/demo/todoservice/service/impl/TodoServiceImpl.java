@@ -21,13 +21,16 @@ public class TodoServiceImpl implements ITodoService {
     private final TodoRepository todoRepository;
 
     @Override
-    public TodoDto createTodo(TodoDto todoDto) {
+    public TodoDto createTodo(UUID creatorId, TodoDto todoDto) {
         log.debug("createTodo() called --->");
-        return TodoMapper.mapEntityToDto(todoRepository.save(TodoMapper.mapDtoToEntity(todoDto, new Todo())), new TodoDto());
+        Todo newTodo = TodoMapper.mapDtoToEntity(todoDto, new Todo());
+        newTodo.setCreatorId(creatorId);
+        Todo savedTodo = todoRepository.save(newTodo);
+        return TodoMapper.mapEntityToDto(savedTodo, new TodoDto());
     }
 
     @Override
-    public TodoDto fetchTodo(UUID todoId) {
+    public TodoDto fetchTodo(UUID creatorId, UUID todoId) {
         log.debug("fetchTodo() called --->");
         Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new ResourceNotFoundException(TodoConstants.RESOURCE_NAME, TodoConstants.TODO_ID, todoId.toString())
@@ -36,7 +39,7 @@ public class TodoServiceImpl implements ITodoService {
     }
 
     @Override
-    public boolean updateTodo(UUID todoId, TodoDto todoDto) {
+    public boolean updateTodo(UUID creatorId, UUID todoId, TodoDto todoDto) {
         log.debug("updateTodo() called --->");
         Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new ResourceNotFoundException(TodoConstants.RESOURCE_NAME, TodoConstants.TODO_ID, todoId.toString())
@@ -46,7 +49,7 @@ public class TodoServiceImpl implements ITodoService {
     }
 
     @Override
-    public boolean deleteTodo(UUID todoId) {
+    public boolean deleteTodo(UUID creatorId, UUID todoId) {
         log.debug("deleteTodo() called --->");
         Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new ResourceNotFoundException(TodoConstants.RESOURCE_NAME, TodoConstants.TODO_ID, todoId.toString())
