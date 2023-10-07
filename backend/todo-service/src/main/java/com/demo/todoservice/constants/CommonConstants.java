@@ -12,6 +12,10 @@ public final class CommonConstants {
     public static final String MSG_417_UPDATE_FAILED = "Update operation failed. Please try again or contact Support team";
     public static final String MSG_417_DELETE_FAILED = "Delete operation failed. Please try again or contact Support team";
 
+    public static final int DEFAULT_PAGE = 0;
+    public static final int DEFAULT_PAGE_SIZE = 25;
+    public static final int PAGE_SIZE_LIMIT = 100;
+
     private CommonConstants() {
     }
 

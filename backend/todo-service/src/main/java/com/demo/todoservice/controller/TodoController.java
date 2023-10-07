@@ -8,6 +8,7 @@ import com.demo.todoservice.security.jwt.JWTUtils;
 import com.demo.todoservice.service.ITodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,6 +50,19 @@ public class TodoController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(iTodoService.fetchTodo(creatorId, todoId));
+    }
+
+    @GetMapping(TodoConstants.TODO_PATH)
+    public ResponseEntity<Page<TodoDto>> fetchTodoPage(@RequestHeader(HttpHeaders.AUTHORIZATION) String headerAuth,
+                                                       @RequestParam(required = false) Integer pageNumber,
+                                                       @RequestParam(required = false) Integer pageSize,
+                                                       @RequestParam(required = false) String sortBy) {
+        log.debug("fetchTodoPage() called --->");
+        UUID creatorId = jwtUtils.getUserIdFromJwtToken(headerAuth);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(iTodoService.fetchTodoPage(creatorId, pageNumber, pageSize, sortBy));
     }
 
     @PutMapping(TodoConstants.TODO_PATH_ID)

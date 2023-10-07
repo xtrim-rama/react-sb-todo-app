@@ -178,6 +178,49 @@
 					"response": []
 				},
 				{
+					"name": "Todo_FETCH_Page",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{todo_service_url}}/api/v1/todos?pageNumber=1&pageSize=3&sortBy=title",
+							"host": [
+								"{{todo_service_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"todos"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								},
+								{
+									"key": "sortBy",
+									"value": "title"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Todo_DELETE",
 					"request": {
 						"auth": {

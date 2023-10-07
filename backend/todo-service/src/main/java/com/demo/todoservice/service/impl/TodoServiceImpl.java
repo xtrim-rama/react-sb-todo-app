@@ -7,8 +7,11 @@ import com.demo.todoservice.exception.ResourceNotFoundException;
 import com.demo.todoservice.mapper.TodoMapper;
 import com.demo.todoservice.repository.TodoRepository;
 import com.demo.todoservice.service.ITodoService;
+import com.demo.todoservice.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -36,6 +39,14 @@ public class TodoServiceImpl implements ITodoService {
                 () -> new ResourceNotFoundException(TodoConstants.RESOURCE_NAME, TodoConstants.TODO_ID, todoId.toString())
         );
         return TodoMapper.mapEntityToDto(todo, new TodoDto());
+    }
+
+    @Override
+    public Page<TodoDto> fetchTodoPage(UUID creatorId, Integer pageNumber, Integer pageSize, String sortBy) {
+        log.debug("fetchTodoPage() called --->");
+        PageRequest pageRequest = PageUtil.buildPageRequest(pageNumber, pageSize, sortBy);
+        Page<Todo> todoPage = todoRepository.findAllByCreatorId(creatorId, pageRequest);
+        return todoPage.map(todo -> TodoMapper.mapEntityToDto(todo, new TodoDto()));
     }
 
     @Override
