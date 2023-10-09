@@ -21,6 +21,7 @@ import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin(origins = "${todo-service.client.url}")
 @RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
 @RestController
 public class TodoController {

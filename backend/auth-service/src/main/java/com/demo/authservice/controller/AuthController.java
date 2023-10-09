@@ -9,9 +9,10 @@ import com.demo.authservice.payload.response.JwtResponse;
 import com.demo.authservice.payload.response.MessageResponse;
 import com.demo.authservice.repository.RoleRepository;
 import com.demo.authservice.repository.UserRepository;
-import com.demo.authservice.security.jwt.JwtUtils;
+import com.demo.authservice.security.jwt.JWTUtils;
 import com.demo.authservice.security.services.UserDetailsImpl;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -43,10 +45,11 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    JWTUtils jwtUtils;
 
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        log.debug("authenticateUser() called --->");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -67,6 +70,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        log.debug("registerUser() called --->");
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
