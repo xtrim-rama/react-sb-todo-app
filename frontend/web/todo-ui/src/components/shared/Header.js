@@ -9,18 +9,21 @@ import {
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
+  const navigate = useNavigate();
+
   const switchToSettings = () => {
-    return;
+    navigate('/settings');
   };
 
   const switchToDashboard = () => {
-    return;
+    navigate('/dashboard');
   };
 
   const logout = () => {
-    return;
+    navigate('/');
   };
 
   return (
@@ -36,7 +39,7 @@ export default function Header() {
                 <DashboardIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Setting" arrow>
+            <Tooltip title="Settings" arrow>
               <IconButton color="inherit" onClick={switchToSettings}>
                 <SettingsIcon />
               </IconButton>
