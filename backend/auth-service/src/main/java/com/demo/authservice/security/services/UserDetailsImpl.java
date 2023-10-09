@@ -1,6 +1,6 @@
 package com.demo.authservice.security.services;
 
-import com.demo.authservice.models.User;
+import com.demo.authservice.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

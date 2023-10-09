@@ -1,7 +1,7 @@
 package com.demo.authservice.repository;
 
-import com.demo.authservice.models.ERole;
-import com.demo.authservice.models.Role;
+import com.demo.authservice.entity.ERole;
+import com.demo.authservice.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
